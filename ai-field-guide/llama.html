@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Llama &mdash; The AI Field Guide</title>
+  <meta name="description" content="Field notes on Llama (Meta, open-weights, free): responses to five prompts, researcher observations, strengths, limitations, and a final rating." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+
+  <nav class="nav" aria-label="Primary">
+    <div class="nav__inner">
+      <a class="nav__brand" href="index.html">
+        <small>Field Guide</small>
+        AI Models
+      </a>
+      <ul class="nav__links">
+        <li><a class="nav__link" href="index.html">Home</a></li>
+        <li><a class="nav__link" href="models.html" aria-current="page">Index</a></li>
+        <li><a class="nav__link" href="comparison.html">Comparison</a></li>
+        <li><a class="nav__link" href="about.html">Method</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <header class="container sig">
+    <div class="sig__label">Model No. 05</div>
+    <h1 class="sig__name">Llama</h1>
+    <div class="sig__meta">Meta &middot; Llama 4, free &middot; Tested April 2026</div>
+    <span class="sig__rule" aria-hidden="true"></span>
+  </header>
+
+  <section class="section section--tight">
+    <div class="container two-col">
+      <aside>
+        <div class="label">Overview</div>
+        <div class="rule"></div>
+      </aside>
+      <div class="prose stack-lg">
+        <p class="lede reveal">
+          Llama was compact and practical. It gave me what I asked for, and not much
+          more. It also leaned hard on emoji in ways that didn&rsquo;t fit the
+          register of what I was asking about.
+        </p>
+        <div class="reveal">
+          <p>
+            The design of Llama is aimed at developers who want to self-host. The
+            context window is big, the privacy posture is strong, and the running costs
+            are under your control. In the browser, it reads like a model built to be a
+            building block, not to be a daily companion. Responses were shorter than the
+            other five. They were also the least opinionated.
+          </p>
+        </div>
+
+        <div class="grid grid--3 reveal" style="margin-top: var(--s-5);">
+          <div>
+            <div class="label">Developer</div>
+            <div class="mt-1">Meta</div>
+          </div>
+          <div>
+            <div class="label">Access</div>
+            <div class="mt-1">Free, open-weights</div>
+          </div>
+          <div>
+            <div class="label">Rating</div>
+            <div class="mt-1"><strong style="font-family: var(--serif); font-size: 28px;">3</strong><span class="muted" style="font-size: 14px;"> / 5</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container two-col">
+      <aside>
+        <div class="label">Prompt Responses</div>
+        <div class="rule"></div>
+        <p class="meta" style="margin-top: var(--s-3);">
+          Each prompt was delivered verbatim to every model. What follows are my notes
+          on how Llama, specifically, answered.
+        </p>
+      </aside>
+
+      <div>
+
+        <article class="prompt">
+          <div class="prompt__number">Prompt 01 &middot; Something I love</div>
+          <h2 class="prompt__title">Physical media &amp; the feeling of ritual</h2>
+          <blockquote class="prompt__question">
+            &ldquo;Something about physical media feels more like an event than streaming
+            ever does &mdash; like putting on a record, sliding in a disc, or cracking a
+            book. I&rsquo;m curious how much of that is the ritual itself and if I can
+            manufacture that feeling.&rdquo;
+          </blockquote>
+          <div class="prompt__observation stack">
+            <p>
+              Llama acknowledged the question as real and offered practical ritual setups
+              &mdash; appointment-style viewing, a one-tab rule, binding a format to a
+              specific location. Less philosophical scaffolding than Claude or Grok. More
+              prescriptive.
+            </p>
+            <div class="callout">
+              <span class="callout__label">What I noticed</span>
+              <p>Llama didn&rsquo;t linger. It got to the tactics fast. Brief, but usable.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="prompt">
+          <div class="prompt__number">Prompt 02 &middot; Something new</div>
+          <h2 class="prompt__title">A beginner&rsquo;s garden in the Pacific Northwest</h2>
+          <blockquote class="prompt__question">
+            &ldquo;I am a beginner to gardening and live in the Pacific Northwest. What
+            are the easiest vegetables or herbs to start with, and what do I actually
+            need to know in my first season?&rdquo;
+          </blockquote>
+          <div class="prompt__observation stack">
+            <p>
+              Llama used tables for what to plant when, and kept the explanatory copy
+              short. Easy to scan. The warmth that ChatGPT puts into a beginner answer
+              wasn&rsquo;t there.
+            </p>
+            <div class="callout callout--warning">
+              <span class="callout__label">As a teacher</span>
+              <p>The tone wasn&rsquo;t what I wanted. Llama leans on emojis in places that didn&rsquo;t fit. Practical, but not particularly warm.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="prompt">
+          <div class="prompt__number">Prompt 03 &middot; Design challenge</div>
+          <h2 class="prompt__title">Walk me through your creative process</h2>
+          <blockquote class="prompt__question">
+            &ldquo;I need help designing my portfolio website to showcase my web design
+            projects, apps and games, and social media management work. Walk me through
+            your creative process.&rdquo;
+          </blockquote>
+          <div class="prompt__observation stack">
+            <p>
+              Short response. Llama framed the answer around &ldquo;structure before
+              style&rdquo; and listed the sections I&rsquo;d need. Didn&rsquo;t go deep
+              into tactics the way ChatGPT or Claude did.
+            </p>
+            <div class="callout">
+              <span class="callout__label">Creative problem solving</span>
+              <p>All-in approach. No clarifying questions. If you give Llama a brief, it will deliver a brief-shaped answer and stop.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="prompt">
+          <div class="prompt__number">Prompt 04 &middot; Design concept</div>
+          <h2 class="prompt__title">Explain branding strategy</h2>
+          <blockquote class="prompt__question">
+            &ldquo;Explain branding strategy development in a way that makes sense to me.&rdquo;
+          </blockquote>
+          <div class="prompt__observation stack">
+            <p>
+              Llama reduced branding to one line: decide what you want to be famous for
+              in a single sentence, then build a system that proves it. Direct. Sparse.
+              Useful, if you already have context.
+            </p>
+            <div class="callout">
+              <span class="callout__label">Concrete vs abstract</span>
+              <p>The definition was tight. The supporting examples weren&rsquo;t there. Compared to Claude&rsquo;s layered answer, Llama&rsquo;s felt like a summary.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="prompt">
+          <div class="prompt__number">Prompt 05 &middot; Real design problem</div>
+          <h2 class="prompt__title">Modernize a salon, spa, and barbershop brand</h2>
+          <blockquote class="prompt__question">
+            &ldquo;Here&rsquo;s a design problem I&rsquo;m facing: modernizing a salon,
+            spa, and barbershop brand (colors, fonts) and website. Help me solve it.&rdquo;
+          </blockquote>
+          <div class="prompt__observation stack">
+            <p>
+              Llama gave me three directions &mdash; Modern Nature Spa, Urban Classic,
+              Minimal Luxe Hybrid &mdash; with palettes, typography, and a strategy-vs-
+              tactics table that made the tradeoffs legible. No follow-up questions.
+            </p>
+            <div class="callout">
+              <span class="callout__label">UI mockup generated</span>
+              <p>No mockup. Three brand directions with design specs, clearly organized. The lack of a visual reference meant I had to imagine the output.</p>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="container two-col">
+      <aside>
+        <div class="label">Assessment</div>
+        <div class="rule"></div>
+      </aside>
+      <div class="grid grid--2">
+        <div class="card reveal" style="border-left-color: var(--success);">
+          <div class="card__kicker" style="color: var(--success);">Strengths</div>
+          <ul style="padding-left: 1.1em; margin: var(--s-2) 0 0; color: var(--ink-secondary); line-height: 1.7;">
+            <li>Large context window handles long projects well.</li>
+            <li>Privacy-friendly if self-hosted.</li>
+            <li>Table-based structures are easy to scan.</li>
+            <li>Answers get to the point.</li>
+          </ul>
+        </div>
+        <div class="card reveal" style="border-left-color: var(--danger);">
+          <div class="card__kicker" style="color: var(--danger);">Limitations</div>
+          <ul style="padding-left: 1.1em; margin: var(--s-2) 0 0; color: var(--ink-secondary); line-height: 1.7;">
+            <li>Self-hosting requires technical expertise.</li>
+            <li>Tone slips into emoji overuse.</li>
+            <li>No clarifying questions before answering.</li>
+            <li>Weaker on creative output than ChatGPT or Claude.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container two-col">
+      <aside>
+        <div class="label">Final Rating</div>
+        <div class="rule"></div>
+      </aside>
+      <div class="prose reveal">
+        <div class="rating" style="margin-bottom: var(--s-3);">
+          <span class="rating__value">3</span><span class="rating__of">out of 5</span>
+          <span class="rating__dots" style="margin-left: var(--s-3);">
+            <span class="rating__dot rating__dot--filled"></span>
+            <span class="rating__dot rating__dot--filled"></span>
+            <span class="rating__dot rating__dot--filled"></span>
+            <span class="rating__dot"></span>
+            <span class="rating__dot"></span>
+          </span>
+        </div>
+        <p class="lede">
+          I didn&rsquo;t like the tone as much, and my needs don&rsquo;t require what
+          Llama is really good at &mdash; self-hosting, privacy-sensitive deployments,
+          developer workflows. In a different role, this model becomes the right pick.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="container">
+    <nav class="pagernav" aria-label="Between model pages">
+      <a href="grok.html">
+        <span class="pagernav__kicker">&larr; Previous &middot; Model No. 04</span>
+        <span class="pagernav__name">Grok</span>
+      </a>
+      <a class="pagernav__next" href="perplexity.html">
+        <span class="pagernav__kicker">Next &middot; Model No. 06 &rarr;</span>
+        <span class="pagernav__name">Perplexity</span>
+      </a>
+    </nav>
+  </section>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div>
+        <div class="label label--muted">The AI Field Guide</div>
+        <div class="mt-1">Edition One &middot; Spring 2026 &middot; Written by Emily Herbert</div>
+      </div>
+      <div class="align-right">
+        <div class="label label--muted">Navigation</div>
+        <div class="mt-1">
+          <a href="index.html">Home</a> &nbsp;&middot;&nbsp;
+          <a href="models.html">Index</a> &nbsp;&middot;&nbsp;
+          <a href="comparison.html">Comparison</a> &nbsp;&middot;&nbsp;
+          <a href="about.html">Method</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

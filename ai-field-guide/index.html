@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>The AI Field Guide — Six Large Language Models, Observed</title>
+  <meta name="description" content="A comparative field study of six large language models — ChatGPT, Claude, Gemini, Grok, Llama, and Perplexity — across five prompts, written in first person by a design student." />
+
+  <!-- fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+
+  <!-- ========== NAV ========== -->
+  <nav class="nav" aria-label="Primary">
+    <div class="nav__inner">
+      <a class="nav__brand" href="index.html" aria-label="The AI Field Guide — home">
+        <small>Field Guide</small>
+        AI Models
+      </a>
+      <ul class="nav__links">
+        <li><a class="nav__link" href="index.html" aria-current="page">Home</a></li>
+        <li><a class="nav__link" href="models.html">Index</a></li>
+        <li><a class="nav__link" href="comparison.html">Comparison</a></li>
+        <li><a class="nav__link" href="about.html">Method</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ========== HERO ========== -->
+  <header class="hero">
+    <div class="hero__logos" aria-hidden="true">
+      <div class="logo-float logo-float--a"><img src="assets/images/logo-chatgpt.png" alt="" /></div>
+      <div class="logo-float logo-float--b"><img src="assets/images/logo-claude.png" alt="" /></div>
+      <div class="logo-float logo-float--c"><img src="assets/images/logo-gemini.png" alt="" /></div>
+      <div class="logo-float logo-float--d"><img src="assets/images/logo-grok.png" alt="" /></div>
+      <div class="logo-float logo-float--e"><img src="assets/images/logo-llama.png" alt="" /></div>
+      <div class="logo-float logo-float--f"><img src="assets/images/logo-perplexity.png" alt="" /></div>
+    </div>
+    <div class="container">
+      <div class="hero__kicker reveal">Field Guide &middot; Edition One &middot; Spring 2026</div>
+      <h1 class="hero__title" data-split="words">The AI Field Guide</h1>
+      <div class="rule reveal-rule" style="width: 160px; margin-top: var(--s-5); background: var(--olive);"></div>
+      <p class="hero__premise reveal">
+        Six large language models, five prompts, one design student with opinions. I ran
+        every test myself and wrote down what I actually noticed &mdash; not what the
+        models claim about themselves.
+      </p>
+      <div class="hero__footer reveal">
+        <span class="label">Begin with the index</span>
+        <a class="nav__link" href="models.html" style="border-bottom: 1px solid var(--olive);">Open the Model Index &rarr;</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========== INTRODUCTION ========== -->
+  <section class="section" aria-labelledby="intro-label">
+    <div class="container two-col">
+      <aside>
+        <div class="label" id="intro-label">On this guide</div>
+        <div class="rule"></div>
+      </aside>
+      <div class="prose stack-lg">
+        <p class="lede reveal">
+          This is not a product comparison. It is a field study. The models behaved
+          differently when asked the same thing, and the differences were worth documenting.
+        </p>
+        <div class="reveal stack">
+          <p>
+            I tested ChatGPT, Claude, Gemini, Grok, Llama, and Perplexity against five
+            prompts drawn from my actual life as a design student &mdash; a reflection on
+            physical media, a beginner question about gardening, a creative process
+            walkthrough, a branding strategy explainer, and a real rebrand problem I was
+            solving. Each model got the exact same prompt. I logged the output, then wrote
+            down what I observed about tone, depth, assumptions, and usefulness.
+          </p>
+          <p>
+            What came back was uneven in ways the marketing never admits. Some models
+            asked clarifying questions before answering. Some jumped to solutions.
+            Some cited sources that felt made up. Some were warm; some were robotic;
+            one loved emojis. This guide documents those differences.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== SIX MODELS PREVIEW ========== -->
+  <section class="section section--tight" aria-labelledby="models-label">
+    <div class="container">
+      <div class="two-col" style="margin-bottom: var(--s-5);">
+        <aside>
+          <div class="label" id="models-label">The Specimens</div>
+          <div class="rule"></div>
+        </aside>
+        <p class="lede reveal">Six models were tested. Each gets its own page.</p>
+      </div>
+
+      <div class="grid grid--3">
+        <a class="card reveal" href="chatgpt.html">
+          <div class="card__header">
+            <div>
+              <span class="card__kicker">Model No. 01</span>
+              <h3 class="card__title">ChatGPT</h3>
+            </div>
+            <div class="card__mark card__mark--sm"><img src="assets/images/logo-chatgpt.png" alt="" /></div>
+          </div>
+          <div class="card__meta">OpenAI &middot; Plus plan &middot; Rating 4/5</div>
+          <p class="card__verdict">Strong brainstorming partner, but keeps you at beginner altitude even when it shouldn&rsquo;t.</p>
+        </a>
+        <a class="card reveal" href="claude.html">
+          <div class="card__header">
+            <div>
+              <span class="card__kicker">Model No. 02</span>
+              <h3 class="card__title">Claude</h3>
+            </div>
+            <div class="card__mark card__mark--sm"><img src="assets/images/logo-claude.png" alt="" /></div>
+          </div>
+          <div class="card__meta">Anthropic &middot; Pro plan (Opus 4.6) &middot; Rating 4/5</div>
+          <p class="card__verdict">Asked questions first. Treated me like a peer. Most conversational of the six.</p>
+        </a>
+        <a class="card reveal" href="gemini.html">
+          <div class="card__header">
+            <div>
+              <span class="card__kicker">Model No. 03</span>
+              <h3 class="card__title">Gemini</h3>
+            </div>
+            <div class="card__mark card__mark--sm"><img src="assets/images/logo-gemini.png" alt="" /></div>
+          </div>
+          <div class="card__meta">Google &middot; EWU Workspace &middot; Rating 3/5</div>
+          <p class="card__verdict">Played it safe. Nothing stood out; nothing was wrong either.</p>
+        </a>
+        <a class="card reveal" href="grok.html">
+          <div class="card__header">
+            <div>
+              <span class="card__kicker">Model No. 04</span>
+              <h3 class="card__title">Grok</h3>
+            </div>
+            <div class="card__mark card__mark--sm"><img src="assets/images/logo-grok.png" alt="" /></div>
+          </div>
+          <div class="card__meta">xAI &middot; Free &middot; Rating 2/5</div>
+          <p class="card__verdict">Pulled in statistics without being asked. Still didn&rsquo;t win me over.</p>
+        </a>
+        <a class="card reveal" href="llama.html">
+          <div class="card__header">
+            <div>
+              <span class="card__kicker">Model No. 05</span>
+              <h3 class="card__title">Llama</h3>
+            </div>
+            <div class="card__mark card__mark--sm"><img src="assets/images/logo-llama.png" alt="" /></div>
+          </div>
+          <div class="card__meta">Meta &middot; Free &middot; Rating 3/5</div>
+          <p class="card__verdict">Compact and practical. Didn&rsquo;t soften anything. Loves emojis.</p>
+        </a>
+        <a class="card reveal" href="perplexity.html">
+          <div class="card__header">
+            <div>
+              <span class="card__kicker">Model No. 06</span>
+              <h3 class="card__title">Perplexity</h3>
+            </div>
+            <div class="card__mark card__mark--sm"><img src="assets/images/logo-perplexity.png" alt="" /></div>
+          </div>
+          <div class="card__meta">Perplexity AI &middot; Free &middot; Rating 2/5</div>
+          <p class="card__verdict">Cited everything. The citations felt arbitrary.</p>
+        </a>
+      </div>
+
+      <div style="margin-top: var(--s-5); text-align: center;">
+        <a class="reveal" href="models.html" style="font-family: var(--serif); font-style: italic; font-size: 20px; color: var(--olive-text); border-bottom: 1px solid var(--olive);">
+          See full index with access tiers &rarr;
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== METHOD TEASE ========== -->
+  <section class="section" aria-labelledby="method-label">
+    <div class="container two-col">
+      <aside>
+        <div class="label" id="method-label">The Method</div>
+        <div class="rule"></div>
+      </aside>
+      <div class="prose stack-lg">
+        <h2 class="reveal">Five prompts. One researcher. Notes taken in real time.</h2>
+        <div class="stack reveal">
+          <p>
+            Each model answered the same five questions. The prompts were chosen to test
+            different kinds of thinking &mdash; personal reflection, beginner guidance,
+            creative process, abstract concepts, and a live design problem.
+          </p>
+          <p>
+            I was looking for three things in every response: how it handled ambiguity,
+            whether it asked clarifying questions, and whether it offered something I
+            could actually use.
+          </p>
+        </div>
+        <div class="reveal">
+          <a href="about.html" style="border-bottom: 1px solid var(--olive); color: var(--olive-text); font-weight: 500;">Read the full method &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div>
+        <div class="label label--muted">The AI Field Guide</div>
+        <div class="mt-1">Edition One &middot; Spring 2026 &middot; Written by Emily Herbert</div>
+      </div>
+      <div class="align-right">
+        <div class="label label--muted">Navigation</div>
+        <div class="mt-1">
+          <a href="models.html">Index</a> &nbsp;&middot;&nbsp;
+          <a href="comparison.html">Comparison</a> &nbsp;&middot;&nbsp;
+          <a href="about.html">Method</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
