@@ -869,6 +869,87 @@ html.no-js .reveal-word { opacity: 1; transform: none; }
 html.no-js .reveal-rule { transform: none; }
 
 /* -----------------------------
+   17. BOOKMARK
+   ----------------------------- */
+.sig { position: relative; }
+
+.sig__bookmark {
+  position: absolute;
+  top: 0;
+  right: var(--s-5);
+  width: 28px;
+  min-height: 90px;
+  background: var(--olive);
+  clip-path: polygon(0 0, 100% 0, 100% 84%, 50% 100%, 0 84%);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 10px;
+  z-index: 2;
+}
+
+.sig__bookmark span {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-family: var(--sans);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--parchment);
+  white-space: nowrap;
+}
+
+/* -----------------------------
+   18. MARGIN NOTES
+   ----------------------------- */
+.margin-note {
+  margin-top: var(--s-5);
+  padding-top: var(--s-3);
+  border-top: 1px solid var(--border);
+  font-family: "Kalam", var(--serif);
+  font-style: normal;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--ink-tertiary);
+}
+
+.margin-note__label {
+  display: block;
+  font-family: var(--sans);
+  font-style: normal;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--olive-text);
+  margin-bottom: 5px;
+}
+
+/* -----------------------------
+   19. NOTEBOOK TEXTURES
+   ----------------------------- */
+
+/* dot grid for aside margin columns */
+.aside-notebook {
+  background-color: var(--parchment-deep);
+  background-image: radial-gradient(circle, rgba(141, 137, 80, 0.22) 1px, transparent 1px);
+  background-size: 18px 18px;
+  padding: var(--s-4);
+}
+
+/* horizontal ruled lines layered onto callout boxes */
+.callout {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent,
+    transparent 27px,
+    rgba(141, 137, 80, 0.10) 27px,
+    rgba(141, 137, 80, 0.10) 28px
+  );
+}
+
+/* -----------------------------
    17. UTILITIES
    ----------------------------- */
 .muted { color: var(--ink-tertiary); }

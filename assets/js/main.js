@@ -243,18 +243,25 @@
       if (window.gsap) {
         const tl = window.gsap.timeline();
         if (targetRect && targetRect.width > 0 && targetRect.height > 0) {
+          // Step 1: rotate to upright while staying large and centered
           tl.fromTo(img,
             { rotation: -270 },
             {
-              top: targetRect.top,
-              left: targetRect.left,
-              width: targetRect.width,
-              height: targetRect.height,
               rotation: 0,
-              duration: 0.95,
-              ease: 'power3.inOut',
+              duration: 0.6,
+              ease: 'power3.out',
             }
           )
+          // Brief pause so the icon is visibly upright before shrinking
+          // Step 2: shrink and fly into the sig mark position (starts 0.18s after rotation ends)
+          .to(img, {
+            top: targetRect.top,
+            left: targetRect.left,
+            width: targetRect.width,
+            height: targetRect.height,
+            duration: 0.75,
+            ease: 'power3.inOut',
+          }, '+=0.18')
           // fade the parchment in parallel so the page settles under the landing logo
           .to(overlay, { opacity: 0, duration: 0.55, ease: 'power2.in' }, '-=0.55')
           .add(() => overlay.remove());
@@ -265,23 +272,25 @@
             .add(() => overlay.remove());
         }
       } else if (targetRect) {
-        img.style.transition =
-          'top 0.95s cubic-bezier(.65,.05,.36,1), ' +
-          'left 0.95s cubic-bezier(.65,.05,.36,1), ' +
-          'width 0.95s cubic-bezier(.65,.05,.36,1), ' +
-          'height 0.95s cubic-bezier(.65,.05,.36,1), ' +
-          'transform 0.95s cubic-bezier(.65,.05,.36,1)';
-        overlay.style.transition = 'opacity 0.55s ease 0.4s';
+        // Step 1: rotate to upright (decelerate into 0deg)
+        img.style.transition = 'transform 0.6s cubic-bezier(.22,.61,.36,1)';
         img.style.transform = 'rotate(-270deg)';
-        requestAnimationFrame(() => {
+        requestAnimationFrame(() => { img.style.transform = 'rotate(0deg)'; });
+        // Step 2: after rotation completes + brief pause, shrink into position
+        setTimeout(() => {
+          img.style.transition =
+            'top 0.75s cubic-bezier(.65,.05,.36,1), ' +
+            'left 0.75s cubic-bezier(.65,.05,.36,1), ' +
+            'width 0.75s cubic-bezier(.65,.05,.36,1), ' +
+            'height 0.75s cubic-bezier(.65,.05,.36,1)';
+          overlay.style.transition = 'opacity 0.55s ease 0.2s';
           img.style.top = `${targetRect.top}px`;
           img.style.left = `${targetRect.left}px`;
           img.style.width = `${targetRect.width}px`;
           img.style.height = `${targetRect.height}px`;
-          img.style.transform = 'rotate(0deg)';
           overlay.style.opacity = '0';
-        });
-        setTimeout(() => overlay.remove(), 1100);
+        }, 780);
+        setTimeout(() => overlay.remove(), 1650);
       } else {
         img.style.transition = 'transform 0.85s cubic-bezier(.65,.05,.36,1)';
         overlay.style.transition = 'opacity 0.5s ease 0.35s';
@@ -387,6 +396,96 @@
           img.style.transform = 'rotate(270deg)';
         });
         setTimeout(navigate, 850);
+      }
+    });
+  }
+
+  /* ---------- PAGE TURN TRANSITION — all non-logo links ---------- */
+  // Uses clip-path: a polygon that starts as a point at the bottom-right
+  // corner and sweeps diagonally across the viewport, then retreats on arrival.
+  const PAGE_TURN_KEY = 'aifg_page_turn';
+  const PT_CLOSED = 'polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)';
+  const PT_OPEN   = 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)';
+
+  // INCOMING: parchment covers the screen; peel it back toward bottom-right
+  (function runPageTurnIn() {
+    let hasTurn = false;
+    try { hasTurn = sessionStorage.getItem(PAGE_TURN_KEY); } catch (e) {}
+    if (!hasTurn) return;
+    try { sessionStorage.removeItem(PAGE_TURN_KEY); } catch (e) {}
+    if (prefersReduced) return;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'aifg-page-transition';
+    overlay.setAttribute('aria-hidden', 'true');
+    overlay.style.cssText = `
+      position: fixed; inset: 0; z-index: 9999;
+      pointer-events: none; background: ${PARCHMENT};
+      clip-path: ${PT_OPEN}; will-change: clip-path;
+    `;
+    document.body.appendChild(overlay);
+
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      if (window.gsap) {
+        gsap.to(overlay, {
+          clipPath: PT_CLOSED,
+          duration: 0.6,
+          ease: 'power2.inOut',
+          onComplete: () => overlay.remove(),
+        });
+      } else {
+        overlay.style.transition = 'clip-path 0.6s cubic-bezier(.65,.05,.36,1)';
+        requestAnimationFrame(() => { overlay.style.clipPath = PT_CLOSED; });
+        setTimeout(() => overlay.remove(), 650);
+      }
+    }));
+  })();
+
+  // OUTGOING: grow a parchment overlay from bottom-right across the screen
+  if (!prefersReduced) {
+    document.addEventListener('click', function (e) {
+      const link = e.target.closest('a');
+      if (!link) return;
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+      const tgt = link.getAttribute('target');
+      if (tgt && tgt !== '_self') return;
+      const href = link.getAttribute('href');
+      if (!href || href.startsWith('#') || href.startsWith('mailto:')) return;
+      // skip external links
+      try { if (new URL(href).origin !== window.location.origin) return; } catch (e) {}
+
+      const file = getFile(href);
+      // skip if this is a model-card link (logo transition handles those)
+      const isModelCard = MODEL_PAGES[file] &&
+        (link.classList.contains('card') || !!link.closest('.card'));
+      if (isModelCard) return;
+
+      e.preventDefault();
+      try { sessionStorage.setItem(PAGE_TURN_KEY, '1'); } catch (err) {}
+
+      const overlay = document.createElement('div');
+      overlay.className = 'aifg-page-transition';
+      overlay.setAttribute('aria-hidden', 'true');
+      overlay.style.cssText = `
+        position: fixed; inset: 0; z-index: 9999;
+        pointer-events: none; background: ${PARCHMENT};
+        clip-path: ${PT_CLOSED}; will-change: clip-path;
+      `;
+      document.body.appendChild(overlay);
+
+      const navigate = () => { window.location.href = href; };
+
+      if (window.gsap) {
+        gsap.to(overlay, {
+          clipPath: PT_OPEN,
+          duration: 0.55,
+          ease: 'power2.inOut',
+          onComplete: navigate,
+        });
+      } else {
+        overlay.style.transition = 'clip-path 0.55s cubic-bezier(.65,.05,.36,1)';
+        requestAnimationFrame(() => { overlay.style.clipPath = PT_OPEN; });
+        setTimeout(navigate, 580);
       }
     });
   }
