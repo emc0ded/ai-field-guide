@@ -156,3 +156,253 @@
     ready();
   }
 })();
+
+
+/* =========================================================
+   PAGE TRANSITION — model card click grows the logo to
+   fill the viewport, then shrinks back on the new page.
+   Respects prefers-reduced-motion. Uses sessionStorage to
+   pass intent across the navigation.
+   ========================================================= */
+(function () {
+  'use strict';
+
+  const prefersReduced =
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const STORAGE_KEY = 'aifg_incoming_model';
+  const PARCHMENT = '#F5F2EB';
+
+  const MODEL_PAGES = {
+    'chatgpt.html':    'assets/images/logo-chatgpt.png',
+    'claude.html':     'assets/images/logo-claude.png',
+    'gemini.html':     'assets/images/logo-gemini.png',
+    'grok.html':       'assets/images/logo-grok.png',
+    'llama.html':      'assets/images/logo-llama.png',
+    'perplexity.html': 'assets/images/logo-perplexity.png',
+  };
+
+  function getFile(href) {
+    if (!href) return '';
+    try {
+      const u = new URL(href, window.location.href);
+      return u.pathname.split('/').pop();
+    } catch (e) { return ''; }
+  }
+
+  /* ---------- INCOMING: fly the logo down to its spot in the sig header ---------- */
+  (function runIncoming() {
+    let incoming = null;
+    try { incoming = sessionStorage.getItem(STORAGE_KEY); } catch (e) {}
+    if (!incoming) return;
+    try { sessionStorage.removeItem(STORAGE_KEY); } catch (e) {}
+    if (prefersReduced) return;
+
+    const here = window.location.pathname.split('/').pop() || 'index.html';
+    if (here !== incoming) return;
+
+    const logoSrc = MODEL_PAGES[incoming];
+    if (!logoSrc) return;
+
+    // Where should the logo land? On the signature-header mark, if it exists.
+    const sigMark = document.querySelector('.sig__mark img');
+
+    // Start large and centered; if there's nothing to land on, shrink in place.
+    const startSize = Math.min(window.innerWidth, window.innerHeight) * 0.7;
+    const startTop  = (window.innerHeight - startSize) / 2;
+    const startLeft = (window.innerWidth  - startSize) / 2;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'aifg-page-transition';
+    overlay.setAttribute('aria-hidden', 'true');
+    overlay.style.cssText = `
+      position: fixed; inset: 0; z-index: 9999;
+      pointer-events: none; background: ${PARCHMENT};
+      will-change: opacity;
+    `;
+
+    const img = document.createElement('img');
+    img.src = logoSrc;
+    img.alt = '';
+    img.style.cssText = `
+      position: absolute;
+      top: ${startTop}px; left: ${startLeft}px;
+      width: ${startSize}px; height: ${startSize}px;
+      object-fit: contain;
+      transform-origin: 50% 50%;
+      will-change: top, left, width, height, transform;
+    `;
+
+    overlay.appendChild(img);
+    document.body.appendChild(overlay);
+
+    const playLanding = () => {
+      // re-measure inside the next frame in case fonts/layout settled
+      const targetRect = sigMark ? sigMark.getBoundingClientRect() : null;
+
+      if (window.gsap) {
+        const tl = window.gsap.timeline();
+        if (targetRect && targetRect.width > 0 && targetRect.height > 0) {
+          tl.fromTo(img,
+            { rotation: -270 },
+            {
+              top: targetRect.top,
+              left: targetRect.left,
+              width: targetRect.width,
+              height: targetRect.height,
+              rotation: 0,
+              duration: 0.95,
+              ease: 'power3.inOut',
+            }
+          )
+          // fade the parchment in parallel so the page settles under the landing logo
+          .to(overlay, { opacity: 0, duration: 0.55, ease: 'power2.in' }, '-=0.55')
+          .add(() => overlay.remove());
+        } else {
+          // fallback: shrink + fade in place
+          tl.to(img, { scale: 0.25, rotation: 270, duration: 0.85, ease: 'power3.inOut' })
+            .to(overlay, { opacity: 0, duration: 0.5, ease: 'power2.in' }, '-=0.5')
+            .add(() => overlay.remove());
+        }
+      } else if (targetRect) {
+        img.style.transition =
+          'top 0.95s cubic-bezier(.65,.05,.36,1), ' +
+          'left 0.95s cubic-bezier(.65,.05,.36,1), ' +
+          'width 0.95s cubic-bezier(.65,.05,.36,1), ' +
+          'height 0.95s cubic-bezier(.65,.05,.36,1), ' +
+          'transform 0.95s cubic-bezier(.65,.05,.36,1)';
+        overlay.style.transition = 'opacity 0.55s ease 0.4s';
+        img.style.transform = 'rotate(-270deg)';
+        requestAnimationFrame(() => {
+          img.style.top = `${targetRect.top}px`;
+          img.style.left = `${targetRect.left}px`;
+          img.style.width = `${targetRect.width}px`;
+          img.style.height = `${targetRect.height}px`;
+          img.style.transform = 'rotate(0deg)';
+          overlay.style.opacity = '0';
+        });
+        setTimeout(() => overlay.remove(), 1100);
+      } else {
+        img.style.transition = 'transform 0.85s cubic-bezier(.65,.05,.36,1)';
+        overlay.style.transition = 'opacity 0.5s ease 0.35s';
+        requestAnimationFrame(() => {
+          img.style.transform = 'scale(0.25) rotate(270deg)';
+          overlay.style.opacity = '0';
+        });
+        setTimeout(() => overlay.remove(), 1000);
+      }
+    };
+    // wait one frame so layout is settled before measuring sig__mark
+    requestAnimationFrame(() => requestAnimationFrame(playLanding));
+  })();
+
+  /* ---------- OUTGOING: card click → grow logo → navigate ---------- */
+  if (!prefersReduced) {
+    document.addEventListener('click', function (e) {
+      const link = e.target.closest('a');
+      if (!link) return;
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+      const tgt = link.getAttribute('target');
+      if (tgt && tgt !== '_self') return;
+
+      const file = getFile(link.getAttribute('href'));
+      const logoSrc = MODEL_PAGES[file];
+      if (!logoSrc) return;
+
+      // only intercept when the click is inside a card link
+      const card = link.classList.contains('card')
+        ? link
+        : link.closest('.card');
+      if (!card) return;
+
+      e.preventDefault();
+
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const targetSize = Math.min(vw, vh) * 0.7;
+      const targetTop  = (vh - targetSize) / 2;
+      const targetLeft = (vw - targetSize) / 2;
+
+      const startEl =
+        link.querySelector('.card__mark img') ||
+        link.querySelector('.card__mark') ||
+        card;
+      const r = startEl.getBoundingClientRect();
+
+      const overlay = document.createElement('div');
+      overlay.className = 'aifg-page-transition';
+      overlay.setAttribute('aria-hidden', 'true');
+      overlay.style.cssText = `
+        position: fixed; inset: 0; z-index: 9999;
+        pointer-events: none; background: ${PARCHMENT};
+        opacity: 0; will-change: opacity;
+      `;
+
+      const img = document.createElement('img');
+      img.src = logoSrc;
+      img.alt = '';
+      img.style.cssText = `
+        position: absolute;
+        top: ${r.top}px; left: ${r.left}px;
+        width: ${r.width}px; height: ${r.height}px;
+        object-fit: contain;
+        transform-origin: 50% 50%;
+        will-change: top, left, width, height, transform;
+      `;
+
+      overlay.appendChild(img);
+      document.body.appendChild(overlay);
+
+      try { sessionStorage.setItem(STORAGE_KEY, file); } catch (err) {}
+
+      const navigate = () => { window.location.href = link.href; };
+
+      if (window.gsap) {
+        const tl = window.gsap.timeline();
+        tl.to(overlay, { opacity: 1, duration: 0.3, ease: 'power2.out' })
+          .to(img, {
+            top: targetTop,
+            left: targetLeft,
+            width: targetSize,
+            height: targetSize,
+            rotation: 270,
+            duration: 0.75,
+            ease: 'power3.inOut',
+          }, '-=0.18')
+          .add(navigate);
+      } else {
+        overlay.style.transition = 'opacity 0.3s ease';
+        img.style.transition =
+          'top 0.75s cubic-bezier(.65,.05,.36,1), ' +
+          'left 0.75s cubic-bezier(.65,.05,.36,1), ' +
+          'width 0.75s cubic-bezier(.65,.05,.36,1), ' +
+          'height 0.75s cubic-bezier(.65,.05,.36,1), ' +
+          'transform 0.75s cubic-bezier(.65,.05,.36,1)';
+        requestAnimationFrame(() => {
+          overlay.style.opacity = '1';
+          img.style.top = `${targetTop}px`;
+          img.style.left = `${targetLeft}px`;
+          img.style.width = `${targetSize}px`;
+          img.style.height = `${targetSize}px`;
+          img.style.transform = 'rotate(270deg)';
+        });
+        setTimeout(navigate, 850);
+      }
+    });
+  }
+
+  /* ---------- CLEANUP: kill leftover overlays on bfcache restore ---------- */
+  // When the user hits the back button, the browser may restore this page
+  // from the back-forward cache with our outgoing-transition overlay still
+  // attached to the DOM. Strip the overlay on pagehide (before the snapshot
+  // is stored) and again on pageshow (as a backup). Do NOT touch the storage
+  // flag here — that flag was just set to tell the next page to play its
+  // entrance animation, and clearing it would cancel that.
+  function clearTransitionOverlays() {
+    document.querySelectorAll('.aifg-page-transition').forEach(el => el.remove());
+  }
+  window.addEventListener('pagehide', clearTransitionOverlays);
+  window.addEventListener('pageshow', function (e) {
+    if (e.persisted) clearTransitionOverlays();
+  });
+})();
